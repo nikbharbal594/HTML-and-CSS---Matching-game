@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <style>
+  img{position:absolute}
+  div{position:absolute;width:500px;height:500px}
+  #rightSide{left:500px;border-left:1px solid black}
+  </style>
+</head>
+<body id="theBody" onload="createFaces()">
+  <h1>Matching Game</h1>
+  <p>Click on the extra smiling face on the left.</p>
+  <div id="leftSide"></div>
+  <div id="rightSide"></div>
+  <script>
+    var noOfFaces = 5;
+    var leftDiv = document.getElementById("leftSide");
+    var rightDiv = document.getElementById("rightSide");
+    function createFaces()
+    {
+      for(var i=0; i<noOfFaces; i++)
+      {
+        var image = document.createElement("img");
+        image.src = "smile.png";
+        image.style.top = Math.floor(Math.random()*400) + "px";
+        image.style.left = Math.floor(Math.random()*400) + "px";
+        leftDiv.appendChild(image);
+      }
+      leftImages = leftDiv.cloneNode(true);
+      leftImages.removeChild(leftImages.lastChild);
+      rightDiv.appendChild(leftImages);
+      leftDiv.lastChild.onclick = function progress(event){
+         event.stopPropagation();
+         while(leftDiv.firstChild)
+         {
+           leftDiv.removeChild(leftDiv.firstChild);
+         }
+         while(rightDiv.firstChild)
+         {
+           rightDiv.removeChild(rightDiv.firstChild);
+         }
+         noOfFaces += 5;
+         createFaces();
+        }
+    }
+    var body = document.getElementById("theBody");
+    body.onclick = function terminate(event){
+      alert("Game Over!");
+      body.onclick = null;
+      leftDiv.lastChild.onclick = null;
+    }
+  </script>
+</body>
+</html>
